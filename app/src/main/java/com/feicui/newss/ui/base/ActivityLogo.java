@@ -1,4 +1,4 @@
-package com.feicui.newss.ui;
+package com.feicui.newss.ui.base;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +23,9 @@ public class ActivityLogo extends AppCompatActivity {
             //动画启动时调用
             @Override
             public void onAnimationStart(Animation animation) {
-
+                Intent intent=new Intent(ActivityLogo.this,ActivityMain.class);
+                startActivity(intent);
+                finish();
             }
 
             //动画重复时调用
@@ -35,9 +37,7 @@ public class ActivityLogo extends AppCompatActivity {
             //动画结束时调用
             @Override
             public void onAnimationRepeat(Animation animation) {
-                Intent intent=new Intent(ActivityLogo.this,ActivityMain.class);
-                startActivity(intent);
-                finish();
+
             }
         });
 

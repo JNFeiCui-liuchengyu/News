@@ -1,4 +1,4 @@
-package com.feicui.newss.ui;
+package com.feicui.newss.ui.base;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -84,12 +84,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mViewPager.setAdapter(new MyPagerAdapter(mList));
         mViewPager.addOnPageChangeListener(this);
     }
-
+    /**界面切换时调用*/
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
-
+    /**当界面切换后调用*/
     @Override
     public void onPageSelected(int position) {
         setPoint(position);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
 
     }
-
+    /**滑动状态变化时调用*/
     @Override
     public void onPageScrollStateChanged(int state) {
 
