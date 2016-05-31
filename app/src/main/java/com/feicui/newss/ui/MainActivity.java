@@ -1,4 +1,4 @@
-package com.feicui.newss;
+package com.feicui.newss.ui;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.feicui.newss.R;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
@@ -19,36 +21,43 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public static final String IS_FIRST_RUN  = "isFirstRun";
     private ArrayList<View> mList;
     private ViewPager       mViewPager;
+    //初始化图片数组
     int[] pics = {R.drawable.welcome,
             R.drawable.wy,
             R.drawable.bd,
             R.drawable.small};
-    private ImageView[] icons=new ImageView[4];
-private void initleadIcon(){
-    icons[0]= (ImageView) findViewById(R.id.iv_p1);
-    icons[1]= (ImageView) findViewById(R.id.iv_p2);
-    icons[2]= (ImageView) findViewById(R.id.iv_p3);
-    icons[3]= (ImageView) findViewById(R.id.iv_p4);
-    setPoint(0);
-    //icons[0].setImageResource(R.drawable.a4);
-}
+    private ImageView[] icons = new ImageView[4];
+
+    private void initleadIcon() {
+        icons[0] = (ImageView) findViewById(R.id.iv_p1);
+        icons[1] = (ImageView) findViewById(R.id.iv_p2);
+        icons[2] = (ImageView) findViewById(R.id.iv_p3);
+        icons[3] = (ImageView) findViewById(R.id.iv_p4);
+        setPoint(0);
+
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void setPoint(int index){
-        for (int i = 0; i <icons.length ; i++) {
-            if (i==index){
+    private void setPoint(int index) {
+        for (int i = 0; i < icons.length; i++) {
+            if (i == index) {
                 icons[i].setImageAlpha(255);
-            }else {
+            } else {
                 icons[i].setImageAlpha(100);
             }
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences preferences= getSharedPreferences(SPLASH_CONFIN,MODE_PRIVATE);
-        boolean isFirstRun=preferences.getBoolean(IS_FIRST_RUN,true);
-        if (!isFirstRun){
-            Intent intent=new Intent(this,ActivityLogo.class);
+        //xml文件存储
+        SharedPreferences preferences = getSharedPreferences(SPLASH_CONFIN, MODE_PRIVATE);
+        //从文件中获取存储的数据，默认为true
+        boolean isFirstRun = preferences.getBoolean(IS_FIRST_RUN, true);
+        //判断是否是第一次打开,如果不是 则跳到logo
+        if (!isFirstRun) {
+            Intent intent = new Intent(this, ActivityLogo.class);
             startActivity(intent);
             finish();
             return;
@@ -57,14 +66,20 @@ private void initleadIcon(){
         initleadIcon();
         initView();
     }
-    private void initView(){
-        mList=new ArrayList<>();
-        mViewPager= (ViewPager) findViewById(R.id.viewpager);
-        for (int i = 0; i <pics.length ; i++) {
-            ImageView iv=new ImageView(this);
+
+    private void initView() {
+        mList = new ArrayList<>();
+        //初始化控件
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        for (int i = 0; i < pics.length; i++) {
+
+            ImageView iv = new ImageView(this);
             iv.setImageResource(pics[i]);
+            //填充屏幕
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
             mList.add(iv);
         }
+
 
         mViewPager.setAdapter(new MyPagerAdapter(mList));
         mViewPager.addOnPageChangeListener(this);
@@ -78,15 +93,16 @@ private void initleadIcon(){
     @Override
     public void onPageSelected(int position) {
         setPoint(position);
+        //判断第几张图片,如果是最后一张 则跳到logo
         if (position >= 3) {
             Intent intent = new Intent(MainActivity.this, ActivityLogo.class);
             startActivity(intent);
             finish();
 
-            SharedPreferences preferences =getSharedPreferences(SPLASH_CONFIN,
+            SharedPreferences preferences = getSharedPreferences(SPLASH_CONFIN,
                     MODE_PRIVATE);
-            SharedPreferences.Editor editor =preferences.edit();
-            editor.putBoolean(IS_FIRST_RUN,false);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(IS_FIRST_RUN, false);
             editor.apply();
         }
 
@@ -96,7 +112,8 @@ private void initleadIcon(){
     public void onPageScrollStateChanged(int state) {
 
     }
-    private class MyPagerAdapter extends PagerAdapter{
+
+    private class MyPagerAdapter extends PagerAdapter {
 
         private ArrayList<View> list;
 
@@ -111,7 +128,7 @@ private void initleadIcon(){
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view==object;
+            return view == object;
         }
 
         @Override
