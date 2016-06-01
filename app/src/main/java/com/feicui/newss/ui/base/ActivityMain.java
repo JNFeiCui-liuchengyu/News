@@ -3,6 +3,7 @@ package com.feicui.newss.ui.base;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,11 +56,15 @@ public class ActivityMain extends AppCompatActivity {
 
     //初始化侧滑菜单
     public void initSlidingMenu() {
+        //fragmentMenu 侧滑菜单
         fragmentMenu = new FragmentMenu();
+        //fragmentMenuRight 侧滑 右侧界面
         fragmentMenuRight = new FragmentMenuRight();
         slidingMenu = new SlidingMenu(this);
+        //侧滑setMode(风格), 从左边正直的出来
         slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        //侧滑后留下的 边距
         slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
@@ -143,5 +148,42 @@ public class ActivityMain extends AppCompatActivity {
                     .replace(R.id.layout_content,fragmentRegister)
                     .commit();
         }
+    }
+    //显示 忘记密码fragment
+    public void showFragmentForgetPass(){
+        setTitle("忘记密码");
+        if (fragmentForgetPass==null){
+            fragmentForgetPass=new FragmentForgetPass();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.layout_content,fragmentForgetPass)
+                    .commit();
+        }
+    }
+    //显示 显示收藏新闻列表的fragment
+    public void showFragmentFavorite(){
+        setTitle("收藏新闻");
+        slidingMenu.showContent();
+        if (fragmentFavorite==null){
+            fragmentFavorite=new FragmentFavorite();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.layout_content,fragmentFavorite)
+                    .commit();
+        }
+    }
+    //右侧是否登录的切换
+    public void changeFrangmentUser(){
+        ((FragmentMenuRight) fragmentMenuRight).changeView();
+    }
+    //切换当前界面的title
+    private void setTitle(String title){
+        textView_title.setText(title);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        System.out.println("ActivityMain");
+        return false;
     }
 }

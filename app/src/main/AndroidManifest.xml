@@ -19,6 +19,10 @@
         </activity>
         <activity android:name=".ui.base.ActivityMain">
         </activity>
+        <activity android:name=".ui.base.FragmentRegister">
+        </activity>
+        <activity android:name=".ui.base.ActivityUser">
+        </activity>
     </application>
 
 </manifest>
